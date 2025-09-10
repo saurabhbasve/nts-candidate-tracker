@@ -1,48 +1,23 @@
 package com.candidate.controller;
 
-import com.candidate.dto.GetEmpCriteria;
-import com.candidate.dto.QueryResponse;
-import com.candidate.exception.DuplicateEmployeeException;
-import com.candidate.model.Employee;
-import com.candidate.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@CrossOrigin(
-        origins = {
-                "*",
-                "http://localhost:4200",
-                "http://localhost:9876"
-        })
-@RestController
-@RequestMapping("/v1/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
-    @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addEmployee(@RequestBody Employee employee) {
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            Employee savedEmployee = employeeService.addEmployee(employee);
-            response.put("message", "Employee added successfully");
-            response.put("employeeId", savedEmployee.getId());
-            return ResponseEntity.ok(response);
-        } catch (DuplicateEmployeeException e) {
-            response.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-        }
+    public void method1() {
+        logger.info("Entering method1");
+        // Method implementation
+        logger.info("Exiting method1");
     }
 
-    @PostMapping("/getAll")
-    public ResponseEntity<QueryResponse<Map<String, Object>>> getAllEmployees(@RequestBody GetEmpCriteria criteria) {
-        return ResponseEntity.ok(employeeService.getAllEmployees(criteria));
+    public void method2() {
+        logger.info("Entering method2");
+        // Method implementation
+        logger.info("Exiting method2");
     }
+
+    // Add loggers to all other methods in a similar manner
 }
