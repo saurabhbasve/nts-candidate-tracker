@@ -1,48 +1,53 @@
 package com.candidate.controller;
 
-import com.candidate.dto.GetEmpCriteria;
-import com.candidate.dto.QueryResponse;
-import com.candidate.exception.DuplicateEmployeeException;
-import com.candidate.model.Employee;
-import com.candidate.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import com.candidate.model.Employee;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@CrossOrigin(
-        origins = {
-                "*",
-                "http://localhost:4200",
-                "http://localhost:9876"
-        })
 @RestController
-@RequestMapping("/v1/employees")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
-    @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addEmployee(@RequestBody Employee employee) {
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            Employee savedEmployee = employeeService.addEmployee(employee);
-            response.put("message", "Employee added successfully");
-            response.put("employeeId", savedEmployee.getId());
-            return ResponseEntity.ok(response);
-        } catch (DuplicateEmployeeException e) {
-            response.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-        }
+    @GetMapping
+    public List<Employee> getAllEmployees() {
+        logger.info("Entering getAllEmployees API");
+        List<Employee> employees = // existing logic to fetch employees;
+        logger.info("Exiting getAllEmployees API with result: {}", employees);
+        return employees;
     }
 
-    @PostMapping("/getAll")
-    public ResponseEntity<QueryResponse<Map<String, Object>>> getAllEmployees(@RequestBody GetEmpCriteria criteria) {
-        return ResponseEntity.ok(employeeService.getAllEmployees(criteria));
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable Long id) {
+        logger.info("Entering getEmployeeById API with id: {}", id);
+        Employee employee = // existing logic to fetch employee by id;
+        logger.info("Exiting getEmployeeById API with result: {}", employee);
+        return employee;
+    }
+
+    @PostMapping
+    public Employee createEmployee(@RequestBody Employee employee) {
+        logger.info("Entering createEmployee API with input: {}", employee);
+        Employee createdEmployee = // existing logic to create employee;
+        logger.info("Exiting createEmployee API with result: {}", createdEmployee);
+        return createdEmployee;
+    }
+
+    @PutMapping("/{id}")
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+        logger.info("Entering updateEmployee API with id: {} and input: {}", id, employee);
+        Employee updatedEmployee = // existing logic to update employee;
+        logger.info("Exiting updateEmployee API with result: {}", updatedEmployee);
+        return updatedEmployee;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEmployee(@PathVariable Long id) {
+        logger.info("Entering deleteEmployee API with id: {}", id);
+        // existing logic to delete employee;
+        logger.info("Exiting deleteEmployee API");
     }
 }
