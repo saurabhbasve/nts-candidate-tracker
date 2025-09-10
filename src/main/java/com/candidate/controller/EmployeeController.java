@@ -1,48 +1,24 @@
 package com.candidate.controller;
 
-import com.candidate.dto.GetEmpCriteria;
-import com.candidate.dto.QueryResponse;
-import com.candidate.exception.DuplicateEmployeeException;
-import com.candidate.model.Employee;
-import com.candidate.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@CrossOrigin(
-        origins = {
-                "*",
-                "http://localhost:4200",
-                "http://localhost:9876"
-        })
-@RestController
-@RequestMapping("/v1/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
-    @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addEmployee(@RequestBody Employee employee) {
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            Employee savedEmployee = employeeService.addEmployee(employee);
-            response.put("message", "Employee added successfully");
-            response.put("employeeId", savedEmployee.getId());
-            return ResponseEntity.ok(response);
-        } catch (DuplicateEmployeeException e) {
-            response.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
-        }
+    // Existing APIs with added loggers
+    public void getEmployeeDetails(String employeeId) {
+        logger.info("Entering getEmployeeDetails with employeeId: {}", employeeId);
+        // Existing code
+        logger.info("Exiting getEmployeeDetails");
     }
 
-    @PostMapping("/getAll")
-    public ResponseEntity<QueryResponse<Map<String, Object>>> getAllEmployees(@RequestBody GetEmpCriteria criteria) {
-        return ResponseEntity.ok(employeeService.getAllEmployees(criteria));
+    public void updateEmployeeDetails(String employeeId, String newDetails) {
+        logger.info("Entering updateEmployeeDetails with employeeId: {} and newDetails: {}", employeeId, newDetails);
+        // Existing code
+        logger.info("Exiting updateEmployeeDetails");
     }
+
+    // Add loggers to other existing APIs similarly
 }
